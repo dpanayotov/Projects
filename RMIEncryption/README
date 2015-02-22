@@ -1,0 +1,15 @@
+В случай на java.security.AccessControlException: access denied (java.io.FilePermission ...):
+	JAVA_HOME/jre/lib/security/java.policy
+		grant {
+			permission java.security.AllPermission;
+			...
+		}
+		
+		
+Стартиране на програмата:
+	Чрез конзола: 
+		Стартиране на сървър: java -jar RMIBankCards.jar Server
+		Стартиране на клиент: java -jar RMIBankCards.jar Client
+	Чрез Netbeans IDE:
+		Стартиране на сървър: StartServer.java - Run file
+		Стартиране на клиент: StartClient.java - Run file
