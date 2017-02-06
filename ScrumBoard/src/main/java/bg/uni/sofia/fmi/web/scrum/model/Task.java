@@ -1,13 +1,14 @@
 package bg.uni.sofia.fmi.web.scrum.model;
 
 import java.io.Serializable;
-import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class Task implements JpaEntity<Long>, Serializable {
@@ -21,8 +22,11 @@ public class Task implements JpaEntity<Long>, Serializable {
 	private String name;
 	private String description;
 
-	@ManyToMany
-	private List<Person> assignees;
+	@Enumerated(EnumType.STRING)
+	private State state = State.NEXT;
+	
+	@Column(name = "assigneeId", nullable = true)
+	private Long assigneeId;
 
 	public long getId() {
 		return id;
@@ -52,12 +56,58 @@ public class Task implements JpaEntity<Long>, Serializable {
 		this.description = description;
 	}
 
-	public List<Person> getAssignee() {
-		return assignees;
+	public State getState() {
+		return state;
 	}
 
-	public void setAssignee(List<Person> assignee) {
-		this.assignees = assignee;
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public void progress() {
+		State next = state;
+		switch (state) {
+		case ANALYZE:
+			next = State.IMPL;
+			break;
+		case DONE:
+			// nothing
+			break;
+		case IMPL:
+			next = State.TEST;
+			break;
+		case NEXT:
+			next = State.ANALYZE;
+			break;
+		case TEST:
+			next = State.DONE;
+			break;
+		default:
+			break;
+		}
+		setState(next);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Task other = (Task) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }

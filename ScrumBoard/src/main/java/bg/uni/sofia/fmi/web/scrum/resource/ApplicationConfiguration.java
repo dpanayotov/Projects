@@ -9,6 +9,6 @@ import javax.ws.rs.core.Application;
 public class ApplicationConfiguration extends Application {
 
 	public Set<Class<?>> getClasses() {
-		return new HashSet<Class<?>>(Arrays.asList(PlanningResource.class));
+		return new HashSet<Class<?>>(Arrays.asList(TaskResource.class, PersonResource.class, MessageBodyHandler.class));
 	}
 }

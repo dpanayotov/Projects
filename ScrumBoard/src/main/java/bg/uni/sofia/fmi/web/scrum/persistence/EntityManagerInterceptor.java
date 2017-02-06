@@ -1,4 +1,4 @@
-package bg.uni.sofia.fmi.web.scrum.resource;
+package bg.uni.sofia.fmi.web.scrum.persistence;
 
 import java.io.IOException;
 
@@ -8,8 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
-import bg.uni.sofia.fmi.web.scrum.persistence.EntityManagerProvider;
 
 public class EntityManagerInterceptor implements Filter {
 

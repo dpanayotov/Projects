@@ -1,14 +1,15 @@
 package bg.uni.sofia.fmi.web.scrum.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Person implements Serializable, JpaEntity<Long> {
@@ -16,6 +17,7 @@ public class Person implements Serializable, JpaEntity<Long> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "personId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
@@ -23,11 +25,9 @@ public class Person implements Serializable, JpaEntity<Long> {
 
 	private String position;
 
-	@ManyToMany(mappedBy = "assignees")
-	private List<Task> tasks;
-
-	@ManyToOne
-	private Team team;
+	@OneToMany
+	@JoinColumn(name = "assigneeId", referencedColumnName = "personId")
+	private Set<Task> tasks;
 
 	public Person() {
 
@@ -61,20 +61,33 @@ public class Person implements Serializable, JpaEntity<Long> {
 		this.position = position;
 	}
 
-	public List<Task> getTasks() {
+	public Set<Task> getTasks() {
 		return tasks;
 	}
 
-	public void setTasks(List<Task> tasks) {
+	public void setTasks(Set<Task> tasks) {
 		this.tasks = tasks;
 	}
 
-	public Team getTeam() {
-		return team;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Person other = (Person) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
-
 }
