@@ -1,0 +1,209 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.0",
+        "title": "Meeting Entity Service",
+        "description":"This is a RESTful web service for listing, viewing and managing entities of the type 'Meeting'"
+    },
+    "basePath":"/services",
+    "tags":[
+      {
+         "name":"Meeting",
+         "description":"View and manage Meeting objects"
+      }
+    ],
+    "paths": {
+        "/js/ScrumBoard/scrum.js": {
+            "get": {
+            	"tags":[
+               		"Meeting"
+            	],
+                "description": "Gets 'Meeting' objects.\n",
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "query",
+                        "description": "Count of all the records",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Identifier of the 'Meeting' object",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "metadata",
+                        "in": "query",
+                        "description": "Metadata of the 'Meeting' object",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit of the objects list",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset of the objects list",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort parameter",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "desc",
+                        "in": "query",
+                        "description": "Descending order",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema":{
+		                     "$ref":"#/definitions/Meeting"
+                        }
+                    }
+                }
+            },
+            "post": {
+            	"tags":[
+               		"Meeting"
+            	],
+                "description": "Creates a new 'Meeting' object.\n",
+                "consumes":[
+	               "application/json"
+	            ],
+	            "produces":[
+	               "plain/text"
+	            ],
+	            "parameters":[
+	               {
+	                  "in":"body",
+	                  "name":"body",
+	                  "description":"Meeting object that needs to be added",
+	                  "required":true,
+	                  "schema":{
+	                     "$ref":"#/definitions/Meeting"
+	                  }
+	               }
+	            ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema":{
+		                     "$ref":"#/definitions/Meeting"
+                        }
+                    }
+                }
+            },
+            "put": {
+            	"tags":[
+               		"Meeting"
+            	],
+                "description": "Updates an existing 'Meeting' object.\n",
+                "consumes":[
+	               "application/json"
+	            ],
+	            "produces":[
+	               "plain/text"
+	            ],
+	            "parameters":[
+	               {
+	                  "in":"body",
+	                  "name":"body",
+	                  "description":"Meeting object that needs to be added",
+	                  "required":true,
+	                  "schema":{
+	                     "$ref":"#/definitions/Meeting"
+	                  }
+	               }
+	            ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema":{
+		                     "$ref":"#/definitions/Meeting"
+                        }
+                    }
+                }
+            },
+            "delete": {
+            	"tags":[
+               		"Meeting"
+            	],
+                "description": "Deletes 'Meeting' objects.\n",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Identifier of the 'Meeting' object",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema":{
+		                     "$ref":"#/definitions/Meeting"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions":{
+        "Meeting": {
+	        "type":"object",
+	        "properties": {
+        		"id": {
+	            	"type": 
+        "integer"
+	    		}
+				,
+        		"name": {
+	            	"type": 
+        "string"
+	    		}
+				,
+        		"scrum_date": {
+	            	"type": 
+        "number"
+	    		}
+				,
+        		"yesterday": {
+	            	"type": 
+        "string"
+	    		}
+				,
+        		"today": {
+	            	"type": 
+        "string"
+	    		}
+				,
+        		"difficulties": {
+	            	"type": 
+        "string"
+	    		}
+	        }
+        }
+	}
+}

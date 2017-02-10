@@ -1,0 +1,15 @@
+{
+  "entityName":"Task",
+  "tableName":"TASK",
+  "tableType":"TABLE",
+  "serviceName":"task.js",
+  "libraryName":"task_lib.js",
+  "specification":"task.swagger",
+  "getEnabled":"true",
+  "postEnabled":"true",
+  "putEnabled":"true",
+  "deleteEnabled":"true",
+  "countEnabled":"true",
+  "offsetAndLimitEnabled":"true",
+  "metadataEnabled":"true"
+}

@@ -1,0 +1,15 @@
+{
+  "entityName":"Meeting",
+  "tableName":"MEETING",
+  "tableType":"TABLE",
+  "serviceName":"scrum.js",
+  "libraryName":"scrum_lib.js",
+  "specification":"scrum.swagger",
+  "getEnabled":"true",
+  "postEnabled":"true",
+  "putEnabled":"true",
+  "deleteEnabled":"true",
+  "countEnabled":"true",
+  "offsetAndLimitEnabled":"true",
+  "metadataEnabled":"true"
+}
