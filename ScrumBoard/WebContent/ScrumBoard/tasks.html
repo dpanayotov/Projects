@@ -75,10 +75,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<div>
-				<div>View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>10</option><option>20</option><option>50</option><option selected>100</option></select> records.<div>
-	    		<uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage" max-size="maxSize" boundary-links="true" force-ellipses="true" rotate="false"></uib-pagination>
-			</div>
 			<hr>
 			<br>
 			<!-- new, edit and delete buttons -->
@@ -161,6 +157,7 @@
 						$scope.showEntry = false;
 						$scope.selectedEntry = null;
 						entry._selected_ = false;
+                      	$("#inputs").hide();
 					}else{
 						for(var i = 0 ; i < $scope.data.length; i ++){
 							$scope.data[i]._selected_ = false;
@@ -168,6 +165,7 @@
 						entry._selected_ = true;
 						$scope.showEntry = true;
 						$scope.selectedEntry = entry;
+                        $("#inputs").show();
 					}
 				}
 			};
@@ -187,7 +185,7 @@
                                if ($scope.operation !== 'update') {
                               	 if ($scope.selectedEntry) {
                                        $scope.operation = 'update';
-                              	      $("#inputs").show();
+                              	       $("#inputs").show();
                                    } else {
                                        alert("Please first select entry for updated");
                                        $scope.operation = 'show';
@@ -223,7 +221,7 @@
             };
 
             $scope.cancelAction = function() {
-            	   $("#inputs").hide();
+            	$("#inputs").hide();
                 refreshData();
             };
 
@@ -304,38 +302,8 @@
 
 			
 		  	$scope.orderByField = 'PRIORITY';
- 			$scope.reverseSort = true;
+ 			$scope.reverseSort = false;
  			
-			//pagination
-			$scope.viewby = 100;
-			var urlCount = url + '?count';
-			$http.get(urlCount)
-				.success(function(count){
-					$scope.totalItems = count;
-				});
-				
-				$scope.currentPage = 1;
-				$scope.itemsPerPage = $scope.viewby;
-				$scope.maxSize = 5;
-			
-			$scope.setPage = function (pageNo) {
-			    $scope.currentPage = pageNo;
-			    $scope.pageChanged();
-			};
-			
-			$scope.pageChanged = function() {
-				var urlLimit = url + '?offset=' + ($scope.viewby*($scope.currentPage-1) + '&limit=' + $scope.viewby);
-				$http.get(urlLimit)
-					.success(function(data){
-						$scope.data = data;
-					});
-			};
-			
-			$scope.setItemsPerPage = function(num) {
-			  	$scope.itemsPerPage = num;
-			  	$scope.setPage(1);
-			}
-			
 		});
 		
 	</script>
@@ -346,28 +314,8 @@
 	<script type="text/javascript" src="js/jquery.tablesorter.js"></script> 
 	<script>
 	  $( document ).ready(function() {
-	  	   $("#inputs").hide();
-	    $.getJSON("main.menu", function(data) {
-			$.each(data, function(i, item) {
-				var itemContent = "";
-				if (item.subMenu.length > 0) {
-					itemContent += "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">" + item.name + " <b class=\"caret\"></b></a>";
-					itemContent += "<ul class=\"dropdown-menu\">";
-					$.each(item.subMenu, function(j, subitem) {
-						itemContent += "<li><a href=\"" + subitem.link + "\" >" + subitem.name + "</a></li>";
-					});
-					itemContent += "</ul>";
-				} else {
-					itemContent += "<li><a href=\"" + item.link + "\" >" + item.name + "</a>";
-				}
-				itemContent += "</li>";
-				$("#main-menu").append(itemContent);
-			});
-		});
-      
+	  	 $("#inputs").hide();
 	  });
 	</script>
-	
-<div ng-include="'footer.html'"></div>
 </body>
 </html>

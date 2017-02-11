@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
-<meta name="author" content="">
+<meta name="author" content="Dimitar Panayotov">
 
 <title>Daily Stand-up Meeting</title>
 
@@ -45,7 +45,8 @@
 			<table class="table table-condensed">
 				<thead>
 					<tr>
-						<th><a href="#" ng-click="orderByField='NAME'; reverseSort = !reverseSort">Name
+						<th>
+						<a href="#" ng-click="orderByField='NAME'; reverseSort = !reverseSort">Name
 						<span ng-show="orderByField == 'NAME'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
 						</a></th>
 						<th>
@@ -80,10 +81,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<div>
-				<div>View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>10</option><option>20</option><option>50</option><option selected>100</option></select> records.<div>
-	    		<uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage" max-size="maxSize" boundary-links="true" force-ellipses="true" rotate="false"></uib-pagination>
-			</div>
 			<hr>
 			<br>
 			<!-- new, edit and delete buttons -->
@@ -159,18 +156,15 @@
 
 			$http.get(url)
 				.success(function(data){
-					$scope.data = data;
+					var processedData = [];
+					for(var i = 0; i<data.length; i++){
+						var next = data[i];
+						next.scrum_date = new Date(data[i].scrum_date);
+						processedData[i] = next;
+					}
+
+					$scope.data = processedData;
 				});
-			
-			/* ---- Uncomment and configure in case of using dropdown or list widgets in the form above  ----
-			
-			var urlRefs = 'ENDPOINT_OF_THE_REFS_SERVICE'; // e.g. '../../js/mypackage/mytypes.js'
-				
-			$http.get(urlRefs)
-				.success(function(refs){
-					$scope.refs = refs;
-				});
-			*/
 			
 			$scope.selectedEntry;
             $scope.operation = 'show';
@@ -182,6 +176,7 @@
 						$scope.showEntry = false;
 						$scope.selectedEntry = null;
 						entry._selected_ = false;
+                      	$("#inputs").hide();
 					}else{
 						for(var i = 0 ; i < $scope.data.length; i ++){
 							$scope.data[i]._selected_ = false;
@@ -189,6 +184,8 @@
 						entry._selected_ = true;
 						$scope.showEntry = true;
 						$scope.selectedEntry = entry;
+						
+                        $("#inputs").show();
 					}
 				}
 			};
@@ -326,37 +323,7 @@
   			$scope.format = $scope.formats[0];
 
 		  	$scope.orderByField = 'SCRUM_DATE';
- 			$scope.reverseSort = true;
-			
-			//pagination
-			$scope.viewby = 100;
-			var urlCount = url + '?count';
-			$http.get(urlCount)
-				.success(function(count){
-					$scope.totalItems = count;
-				});
-				
-				$scope.currentPage = 1;
-				$scope.itemsPerPage = $scope.viewby;
-				$scope.maxSize = 5;
-			
-			$scope.setPage = function (pageNo) {
-			    $scope.currentPage = pageNo;
-			    $scope.pageChanged();
-			};
-			
-			$scope.pageChanged = function() {
-				var urlLimit = url + '?offset=' + ($scope.viewby*($scope.currentPage-1) + '&limit=' + $scope.viewby);
-				$http.get(urlLimit)
-					.success(function(data){
-						$scope.data = data;
-					});
-			};
-			
-			$scope.setItemsPerPage = function(num) {
-			  	$scope.itemsPerPage = num;
-			  	$scope.setPage(1);
-			}
+ 			$scope.reverseSort = false;
 		});
 		
 	</script>
@@ -365,27 +332,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script>
 	  $( document ).ready(function() {
-	  $("#inputs").hide();
-	    $.getJSON("main.menu", function(data) {
-			$.each(data, function(i, item) {
-				var itemContent = "";
-				if (item.subMenu.length > 0) {
-					itemContent += "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">" + item.name + " <b class=\"caret\"></b></a>";
-					itemContent += "<ul class=\"dropdown-menu\">";
-					$.each(item.subMenu, function(j, subitem) {
-						itemContent += "<li><a href=\"" + subitem.link + "\" >" + subitem.name + "</a></li>";
-					});
-					itemContent += "</ul>";
-				} else {
-					itemContent += "<li><a href=\"" + item.link + "\" >" + item.name + "</a>";
-				}
-				itemContent += "</li>";
-				$("#main-menu").append(itemContent);
-			});
-		});
+	  	$("#inputs").hide();
 	  });
 	</script>
-	
-<div ng-include="'footer.html'"></div>
 </body>
 </html>
